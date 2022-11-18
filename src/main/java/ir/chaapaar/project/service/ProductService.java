@@ -21,7 +21,6 @@ public class ProductService {
     @Autowired
     ProductRepository productRepository;
 
-    //TODO: change log levels to debug
     @Transactional
     public Product save(ProductDto productDto) {
         Product product = productRepository.save(ProductMapper.mapProductDtoToEntity(productDto));

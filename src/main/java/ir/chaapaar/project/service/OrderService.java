@@ -23,7 +23,6 @@ public class OrderService {
     @Autowired
     OrderRepository orderRepository;
 
-    //TODO: change log levels to debug
     @Transactional
     public Order save(OrderDto orderDto) {
         Order order = orderRepository.save(OrderMapper.mapOrderDtoToEntity(orderDto));

@@ -21,11 +21,10 @@ public class CustomerService {
     @Autowired
     CustomerRepository customerRepository;
 
-    //TODO: change log levels to debug
     @Transactional
     public Customer save(CustomerDto customerDto) {
         Customer customer = customerRepository.save(CustomerMapper.mapCustomerDtoToEntity(customerDto));
-        log.warn(LogUtils.encode(String.format("Customer with email «%s» saved.", customer.getEmail())));
+        log.info(LogUtils.encode(String.format("Customer with email «%s» saved.", customer.getEmail())));
         return customer;
     }
 
@@ -35,14 +34,14 @@ public class CustomerService {
         if (!customer.isPresent()) {
             throw new CustomerNotFoundException(String.format("Customer with id %s not found!", id));
         }
-        log.warn(LogUtils.encode(String.format("Customer with id «%s» loaded.", id)));
+        log.info(LogUtils.encode(String.format("Customer with id «%s» loaded.", id)));
         return customer.get();
     }
 
     @Transactional
     public List<Customer> loadAll() {
         List<Customer> customers = customerRepository.findAll();
-        log.warn(LogUtils.encode("All customers loaded."));
+        log.info(LogUtils.encode("All customers loaded."));
         return customers;
     }
 
@@ -53,7 +52,7 @@ public class CustomerService {
             Customer newCustomer = CustomerMapper.mapCustomerDtoToEntity(customerDto);
             newCustomer.setId(customer.get().getId());
             Customer updatedCustomer = customerRepository.save(newCustomer);
-            log.warn(LogUtils.encode(String.format("Customer with id «%s» updates.", updatedCustomer.getId())));
+            log.info(LogUtils.encode(String.format("Customer with id «%s» updates.", updatedCustomer.getId())));
             return updatedCustomer;
         } else {
             throw new CustomerNotFoundException(String.format("Customer with id %s not found!", id));
@@ -67,7 +66,7 @@ public class CustomerService {
             throw new CustomerNotFoundException(String.format("Customer with id %s not found!", id));
         }
         customerRepository.delete(customer.get());
-        log.warn(LogUtils.encode(String.format("Customer with id «%s» deleted.", id)));
+        log.info(LogUtils.encode(String.format("Customer with id «%s» deleted.", id)));
         return customer.get();
     }
 
