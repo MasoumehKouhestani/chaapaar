@@ -130,7 +130,7 @@ public class OrderControllerIntegrationTest {
         ResponseEntity<Order> updatedRequestResponse = restTemplate
                 .postForEntity(baseUrl + "/update",
                         testUtil.createOrder(testUtil.createOrderId(CUSTOMER_EMAIL_7, PRODUCT_NAME_7)), Order.class);
-        assertEquals(HttpStatus.OK, updatedRequestResponse.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, updatedRequestResponse.getStatusCode());
         assertNull(updatedRequestResponse.getBody());
     }
 
@@ -148,7 +148,7 @@ public class OrderControllerIntegrationTest {
     @Test
     public void testDeleteAnOrderThatDoesNotExistFails() {
         ResponseEntity<Order> deleteRequestResponse = restTemplate.postForEntity(baseUrl + "/delete", testUtil.createOrder(testUtil.createOrderId(CUSTOMER_EMAIL_7, PRODUCT_NAME_7)), Order.class);
-        assertEquals(HttpStatus.OK, deleteRequestResponse.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, deleteRequestResponse.getStatusCode());
         assertNull(deleteRequestResponse.getBody());
     }
 }

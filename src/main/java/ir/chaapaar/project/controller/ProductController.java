@@ -7,7 +7,9 @@ import ir.chaapaar.project.service.ProductService;
 import ir.chaapaar.project.util.LogUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,18 +23,17 @@ public class ProductController {
     ProductService productService;
 
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Product save(@RequestBody ProductDto product) {
-        return productService.save(product);
+    public ResponseEntity<Product> save(@RequestBody ProductDto product) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.save(product));
     }
 
-    //TODO: is that ok returning null (load and update and delete)
     @GetMapping(value = "/load/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Product load(@PathVariable(value = "id") Integer id) {
+    ResponseEntity<Product> load(@PathVariable(value = "id") Integer id) {
         try {
-            return productService.load(id);
+            return ResponseEntity.status(HttpStatus.OK).body(productService.load(id));
         } catch (ProductNotFoundException e) {
             log.warn(LogUtils.encode(String.format("Product with id %s not found!", id)));
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
@@ -42,22 +43,22 @@ public class ProductController {
     }
 
     @PostMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Product update(@PathVariable(value = "id") Integer id, @RequestBody ProductDto product) {
+    ResponseEntity<Product> update(@PathVariable(value = "id") Integer id, @RequestBody ProductDto product) {
         try {
-            return productService.update(id, product);
+            return ResponseEntity.status(HttpStatus.OK).body(productService.update(id, product));
         } catch (ProductNotFoundException e) {
             log.warn(LogUtils.encode(String.format("Product with id %s not found!", id)));
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     @GetMapping("/delete/{id}")
-    public Product delete(@PathVariable(value = "id") Integer id) {
+    ResponseEntity<Product> delete(@PathVariable(value = "id") Integer id) {
         try {
-            return productService.delete(id);
+            return ResponseEntity.status(HttpStatus.OK).body(productService.delete(id));
         } catch (ProductNotFoundException e) {
             log.warn(LogUtils.encode(String.format("Product with id %s not found!", id)));
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 

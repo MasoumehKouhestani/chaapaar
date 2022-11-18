@@ -108,7 +108,7 @@ public class CustomerControllerIntegrationTest {
     public void testUpdateACustomerThatDoesNotExistFails() {
         ResponseEntity<Customer> updatedRequestResponse = restTemplate.postForEntity(baseUrl + "/update/" + UUID.randomUUID(),
                 testUtil.createCustomerDto(CUSTOMER_EMAIL_1), Customer.class);
-        assertEquals(HttpStatus.OK, updatedRequestResponse.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, updatedRequestResponse.getStatusCode());
         assertNull(updatedRequestResponse.getBody());
     }
 
@@ -125,7 +125,7 @@ public class CustomerControllerIntegrationTest {
     @Test
     public void testDeleteACustomerThatDoesNotExistFails() {
         ResponseEntity<Customer> deleteRequestResponse = restTemplate.getForEntity(baseUrl + "/delete/" + UUID.randomUUID(), Customer.class);
-        assertEquals(HttpStatus.OK, deleteRequestResponse.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, deleteRequestResponse.getStatusCode());
         assertNull(deleteRequestResponse.getBody());
     }
 }

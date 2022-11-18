@@ -105,7 +105,7 @@ public class ProductControllerIntegrationTest {
     public void testUpdateAProductThatDoesNotExistFails() {
         ResponseEntity<Product> updatedRequestResponse = restTemplate.postForEntity(baseUrl + "/update/" + random.nextInt(100),
                 testUtil.createProductDto(PRODUCT_NAME_1), Product.class);
-        assertEquals(HttpStatus.OK, updatedRequestResponse.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, updatedRequestResponse.getStatusCode());
         assertNull(updatedRequestResponse.getBody());
     }
 
@@ -123,7 +123,7 @@ public class ProductControllerIntegrationTest {
     @Test
     public void testDeleteAProductThatDoesNotExistFails() {
         ResponseEntity<Product> deleteRequestResponse = restTemplate.getForEntity(baseUrl + "/delete/" + random.nextInt(100), Product.class);
-        assertEquals(HttpStatus.OK, deleteRequestResponse.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, deleteRequestResponse.getStatusCode());
         assertNull(deleteRequestResponse.getBody());
     }
 }
